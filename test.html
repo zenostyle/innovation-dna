@@ -110,37 +110,50 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
         
-        .input-box input {
-            width: 40px;
-            height: 40px;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
+        .option-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             border: 2px solid #ddd;
-            border-radius: 10px;
-            outline: none;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
             transition: all 0.3s;
-            text-transform: uppercase;
-            background: #fff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.1);
         }
         
-        .input-box input:focus {
+        .option-btn.active {
+            background: linear-gradient(135deg, #FF6E00 0%, #FF9E42 100%);
+            color: white;
             border-color: #FF6E00;
-            box-shadow: 0 0 0 3px rgba(255, 110, 0, 0.3);
+            box-shadow: 0 0 15px rgba(255, 110, 0, 0.4);
+            transform: scale(1.05);
         }
         
-        .input-box input.valid {
-            border-color: #044ED7;
-            background-color: rgba(4, 78, 215, 0.1);
+        .option-btn::after {
+            content: "B";
+            position: absolute;
+            opacity: 0.7;
+            font-size: 0.9rem;
+            bottom: 5px;
+            right: 5px;
+            color: #777;
         }
         
-        .input-box input.invalid {
-            border-color: #e74c3c;
-            background-color: rgba(231, 76, 60, 0.1);
+        .option-btn.active::after {
+            content: "A";
+            color: white;
+            font-weight: bold;
         }
         
         .btn {
@@ -340,6 +353,11 @@
             font-size: 0.9rem;
             color: #044ED7;
             border-left: 3px solid #FF6E00;
+            text-align: center;
+        }
+        
+        .instructions p {
+            margin-bottom: 10px;
         }
         
         .dna-graphic {
@@ -374,6 +392,34 @@
             100% { transform: scale(1); }
         }
         
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .legend-a {
+            background: linear-gradient(135deg, #FF6E00 0%, #FF9E42 100%);
+        }
+        
+        .legend-b {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+        }
+        
         @media (max-width: 480px) {
             h1 {
                 font-size: 1.5rem;
@@ -387,9 +433,15 @@
                 font-size: 3rem;
             }
             
-            .input-box input {
-                width: 35px;
-                height: 35px;
+            .option-btn {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .legend {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
             }
         }
     </style>
@@ -413,13 +465,23 @@
         
         <div class="input-section">
             <div class="instructions">
-                <p><i class="fas fa-info-circle"></i> 请根据纸质测试结果，在下方输入15道题的答案（A或B）</p>
+                <p><i class="fas fa-info-circle"></i> 请根据纸质测试结果，点亮您选择的A选项</p>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-box legend-a"></div>
+                        <span>A选项（点亮）</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box legend-b"></div>
+                        <span>B选项（未点亮）</span>
+                    </div>
+                </div>
             </div>
             
             <div class="input-group">
-                <label>请输入您的15个答案</label>
-                <div class="input-box" id="answerInputs">
-                    <!-- 动态生成输入框 -->
+                <label>请点亮您的A选项（共15题）</label>
+                <div class="input-box" id="answerButtons">
+                    <!-- 动态生成按钮 -->
                 </div>
                 <button id="generateBtn" class="btn" disabled>
                     <i class="fas fa-dna"></i> 解码创新DNA
@@ -461,7 +523,8 @@
     </div>
     
     <footer>
-        <p>© 2025 GCTIC2周年 | 创新DNA实验室
+        <p>© 2023 创新DNA实验室 | 解码你的创新基因图谱</p>
+        <p>本测试基于创新心理学研究，结果仅供参考</p>
     </footer>
 
     <script>
@@ -573,53 +636,60 @@
         
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
-            const answerInputs = document.getElementById('answerInputs');
+            const answerButtons = document.getElementById('answerButtons');
             const generateBtn = document.getElementById('generateBtn');
             const resultSection = document.getElementById('resultSection');
             const retryBtn = document.getElementById('retryBtn');
             
-            // 创建15个输入框
+            // 创建15个按钮
             for (let i = 1; i <= 15; i++) {
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.maxLength = 1;
-                input.placeholder = i;
-                input.dataset.index = i - 1;
-                input.addEventListener('input', validateInput);
-                answerInputs.appendChild(input);
+                const button = document.createElement('div');
+                button.className = 'option-btn';
+                button.dataset.index = i - 1;
+                button.dataset.selected = 'B'; // 默认选择B
+                button.textContent = i;
+                
+                button.addEventListener('click', function() {
+                    // 切换选择状态
+                    if (this.dataset.selected === 'B') {
+                        this.dataset.selected = 'A';
+                        this.classList.add('active');
+                    } else {
+                        this.dataset.selected = 'B';
+                        this.classList.remove('active');
+                    }
+                    
+                    // 检查是否所有题目都已选择
+                    checkCompletion();
+                });
+                
+                answerButtons.appendChild(button);
             }
             
-            // 验证输入
-            function validateInput() {
-                const inputs = document.querySelectorAll('#answerInputs input');
-                let allValid = true;
+            // 检查是否所有题目都已选择
+            function checkCompletion() {
+                const buttons = document.querySelectorAll('.option-btn');
+                let allSelected = true;
                 
-                inputs.forEach(input => {
-                    const value = input.value.toUpperCase();
-                    if (value === 'A' || value === 'B') {
-                        input.value = value;
-                        input.classList.remove('invalid');
-                        input.classList.add('valid');
-                    } else if (value !== '') {
-                        input.classList.remove('valid');
-                        input.classList.add('invalid');
-                        allValid = false;
-                    } else {
-                        input.classList.remove('valid', 'invalid');
-                        allValid = false;
+                buttons.forEach(btn => {
+                    // 所有按钮都有选择（默认就是B）
+                    // 这里只需要确认用户已经点击过所有按钮
+                    // 但为了确保，我们检查每个按钮都有dataset.selected
+                    if (!btn.dataset.selected) {
+                        allSelected = false;
                     }
                 });
                 
-                generateBtn.disabled = !allValid;
+                generateBtn.disabled = !allSelected;
             }
             
             // 生成报告
             generateBtn.addEventListener('click', function() {
                 const answers = [];
-                const inputs = document.querySelectorAll('#answerInputs input');
+                const buttons = document.querySelectorAll('.option-btn');
                 
-                inputs.forEach(input => {
-                    answers.push(input.value.toUpperCase());
+                buttons.forEach(button => {
+                    answers.push(button.dataset.selected);
                 });
                 
                 // 计算每个类型的得分
@@ -668,10 +738,10 @@
             
             // 重新测试
             retryBtn.addEventListener('click', function() {
-                const inputs = document.querySelectorAll('#answerInputs input');
-                inputs.forEach(input => {
-                    input.value = '';
-                    input.classList.remove('valid', 'invalid');
+                const buttons = document.querySelectorAll('.option-btn');
+                buttons.forEach(btn => {
+                    btn.dataset.selected = 'B';
+                    btn.classList.remove('active');
                 });
                 
                 generateBtn.disabled = true;
