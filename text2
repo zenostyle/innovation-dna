@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创新DNA测试报告</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #9199D8 0%, #044ED7 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin: 15px 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+        }
+        
+        header {
+            background: #044ED7;
+            color: white;
+            text-align: center;
+            padding: 20px 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -40px;
+            left: -40px;
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 110, 0, 0.15);
+            border-radius: 50%;
+        }
+        
+        header::after {
+            content: "";
+            position: absolute;
+            bottom: -60px;
+            right: -20px;
+            width: 160px;
+            height: 160px;
+            background: rgba(145, 153, 216, 0.15);
+            border-radius: 50%;
+        }
+        
+        h1 {
+            font-size: 1.7rem;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            max-width: 90%;
+            margin: 0 auto;
+            color: rgba(255,255,255,0.85);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .input-section {
+            padding: 15px;
+            background: #f8f9fa;
+            text-align: center;
+        }
+        
+        .input-group {
+            margin-bottom: 12px;
+        }
+        
+        .name-input {
+            width: 100%;
+            max-width: 280px;
+            padding: 11px 15px;
+            margin: 0 auto 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .name-input:focus {
+            border-color: #044ED7;
+            box-shadow: 0 0 8px rgba(4, 78, 215, 0.3);
+            outline: none;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #044ED7;
+            font-size: 1.05rem;
+        }
+        
+        .input-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 4px;
+            width: 100%;
+        }
+        
+        .option-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .option-btn.active {
+            background: linear-gradient(135deg, #FF6E00 0%, #FF9E42 100%);
+            color: white;
+            border-color: #FF6E00;
+            box-shadow: 0 0 10px rgba(255, 110, 0, 0.4);
+            transform: scale(1.05);
+        }
+        
+        .option-btn::after {
+            content: "B";
+            position: absolute;
+            opacity: 0.7;
+            font-size: 0.75rem;
+            bottom: 4px;
+            right: 4px;
+            color: #777;
+        }
+        
+        .option-btn.active::after {
+            content: "A";
+            color: white;
+            font-weight: bold;
+        }
+        
+        .btn {
+            background: #FF6E00;
+            color: white;
+            border: none;
+            padding: 11px 22px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 10px rgba(255, 110, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-top: 5px;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: #044ED7;
+            transition: width 0.5s;
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            width: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(255, 110, 0, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+        
+        .btn:disabled::before {
+            display: none;
+        }
+        
+        .result-section {
+            display: none;
+            padding: 0 12px 12px;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-header {
+            text-align: center;
+            padding: 12px 0 6px;
+        }
+        
+        .result-title {
+            font-size: 1.35rem;
+            margin-bottom: 5px;
+            color: #044ED7;
+            font-weight: 700;
+            text-shadow: 0 2px 3px rgba(4, 78, 215, 0.2);
+            line-height: 1.3;
+        }
+        
+        .dna-type {
+            font-size: 1.5rem;
+            color: #FF6E00;
+            display: block;
+            margin: 5px 0;
+            text-shadow: 0 2px 3px rgba(255, 110, 0, 0.2);
+        }
+        
+        .result-subtitle {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #FF6E00;
+            margin-bottom: 4px;
+            font-style: italic;
+        }
+        
+        .result-icon {
+            font-size: 2.5rem;
+            margin: 8px 0;
+            animation: pulse 2s infinite;
+            color: #044ED7;
+            text-shadow: 0 3px 5px rgba(4, 78, 215, 0.3);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .result-desc {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 14px;
+            margin: 10px 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            line-height: 1.5;
+            border-left: 4px solid #FF6E00;
+            position: relative;
+            font-size: 0.9rem;
+        }
+        
+        .result-desc::before {
+            content: """;
+            position: absolute;
+            top: -8px;
+            left: 10px;
+            font-size: 2.5rem;
+            color: #044ED7;
+            opacity: 0.1;
+            font-family: serif;
+        }
+        
+        .result-points {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .point-card {
+            flex: 1;
+            min-width: 110px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            border: 1px solid rgba(4, 78, 215, 0.1);
+        }
+        
+        .point-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-color: rgba(4, 78, 215, 0.3);
+        }
+        
+        .point-icon {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            color: #FF6E00;
+        }
+        
+        .point-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 0.82rem;
+            color: #044ED7;
+        }
+        
+        .point-desc {
+            font-size: 0.78rem;
+            color: #7f8c8d;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.85);
+            padding: 12px;
+            font-size: 0.82rem;
+            max-width: 500px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .instructions {
+            background: rgba(145, 153, 216, 0.15);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 0.82rem;
+            color: #044ED7;
+            border-left: 3px solid #FF6E00;
+            text-align: center;
+        }
+        
+        .instructions p {
+            margin-bottom: 6px;
+        }
+        
+        .dna-graphic {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+            gap: 3px;
+        }
+        
+        .dna-node {
+            width: 8px;
+            height: 8px;
+            background: #9199D8;
+            border-radius: 50%;
+            position: relative;
+            animation: dnaPulse 1.5s infinite;
+        }
+        
+        .dna-node:nth-child(2n) {
+            background: #044ED7;
+            animation-delay: 0.5s;
+        }
+        
+        .dna-node:nth-child(3n) {
+            background: #FF6E00;
+            animation-delay: 1s;
+        }
+        
+        @keyframes dnaPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .legend-box {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+        
+        .legend-a {
+            background: linear-gradient(135deg, #FF6E00 0%, #FF9E42 100%);
+        }
+        
+        .legend-b {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            .result-title {
+                font-size: 1.2rem;
+            }
+            
+            .dna-type {
+                font-size: 1.3rem;
+            }
+            
+            .result-icon {
+                font-size: 2.2rem;
+            }
+            
+            .option-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 0.95rem;
+            }
+            
+            .legend {
+                gap: 6px;
+            }
+            
+            .btn {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+            
+            .name-input {
+                max-width: 240px;
+                padding: 10px;
+                font-size: 0.92rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>创新DNA测试报告</h1>
+            <p class="subtitle">解码你的创新基因，释放创造力潜能</p>
+            <div class="dna-graphic">
+                <div class="dna-node"></div>
+                <div class="dna-node"></div>
+                <div class="dna-node"></div>
+                <div class="dna-node"></div>
+                <div class="dna-node"></div>
+                <div class="dna-node"></div>
+                <div class="dna-node"></div>
+                <div class="dna-node"></div>
+            </div>
+        </header>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <label for="userName"><i class="fas fa-user"></i> 请输入您的名字</label>
+                <input type="text" id="userName" class="name-input" placeholder="请输入您的名字" maxlength="20">
+            </div>
+            
+            <div class="instructions">
+                <p><i class="fas fa-info-circle"></i> 请根据纸质测试结果，点亮您选择的A选项</p>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-box legend-a"></div>
+                        <span>A选项（点亮）</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box legend-b"></div>
+                        <span>B选项（未点亮）</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label>请点亮您的A选项（共15题）</label>
+                <div class="input-box" id="answerButtons">
+                    <!-- 动态生成按钮 -->
+                </div>
+                <button id="generateBtn" class="btn" disabled>
+                    <i class="fas fa-dna"></i> 解码创新DNA
+                </button>
+            </div>
+        </div>
+        
+        <div class="result-section" id="resultSection">
+            <div class="result-header">
+                <div class="result-icon" id="resultIcon">🎨</div>
+                <h2 class="result-title">
+                    亲爱的<span id="userNameDisplay">朋友</span>，您的创新DNA是：
+                    <span class="dna-type" id="dnaType">艺术家</span>
+                </h2>
+                <p class="result-subtitle" id="resultSubtitle">「办公室的感官魔法师」</p>
+            </div>
+            
+            <div class="result-desc" id="resultDesc">
+                你总能让枯燥的数据报告变成视觉盛宴！PPT配色堪比莫奈，Excel表格藏着黄金分割，连会议记录都能画出思维导图。你的超能力在于用美感化解钢铁丛林的压力——当同事对着冷冰冰的KPI发愁时，你端出插着薄荷叶的咖啡说："试试把柱状图换成渐变流线？"
+            </div>
+            
+            <div class="result-points">
+                <div class="point-card">
+                    <div class="point-icon"><i class="fas fa-star"></i></div>
+                    <div class="point-title">职场高光时刻</div>
+                    <div class="point-desc" id="highlight">老板对着你设计的方案惊叹："这简直像艺术品！"</div>
+                </div>
+                
+                <div class="point-card">
+                    <div class="point-icon"><i class="fas fa-key"></i></div>
+                    <div class="point-title">成长密钥</div>
+                    <div class="point-desc" id="growthKey">给季度报表加点梵高黄（美感+专业=无敌说服力）</div>
+                </div>
+            </div>
+            
+            <div class="actions">
+                <button class="btn" id="retryBtn">
+                    <i class="fas fa-redo"></i> 重新测试
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>2023 GCTIC2周年 | 创新DNA实验室</p>
+        <p>本测试仅供娱乐，结果仅供参考</p>
+    </footer>
+
+    <script>
+        // 创意类型数据
+        const creativeTypes = {
+            '艺术家': {
+                icon: '🎨',
+                subtitle: '「办公室的感官魔法师」',
+                desc: '你总能让枯燥的数据报告变成视觉盛宴！PPT配色堪比莫奈，Excel表格藏着黄金分割，连会议记录都能画出思维导图。你的超能力在于用美感化解钢铁丛林的压力——当同事对着冷冰冰的KPI发愁时，你端出插着薄荷叶的咖啡说："试试把柱状图换成渐变流线？"',
+                highlight: '老板对着你设计的方案惊叹："这简直像艺术品！"',
+                growthKey: '给季度报表加点梵高黄（美感+专业=无敌说服力）',
+                questions: [ // 4A,5A,6B,10A,15B
+                    {q: 3, a: 'A'}, // 第4题选A
+                    {q: 4, a: 'A'}, // 第5题选A
+                    {q: 5, a: 'B'}, // 第6题选B
+                    {q: 9, a: 'A'}, // 第10题选A
+                    {q: 14, a: 'B'} // 第15题选B
+                ]
+            },
+            '思想家': {
+                icon: '🧠',
+                subtitle: '「茶水间的人形百科」',
+                desc: '你是同事心中的"十万个为什么"活体答案机。当别人在焦虑AI取代人类时，你默默用Python把重复工作自动化；当团队争论不休，你甩出SWOT分析表："根据数据，第三条路径风险率最低…"',
+                highlight: '从行业白皮书发现蓝海市场',
+                growthKey: '每周给团队发篇深度文摘（知识共享让你更受欢迎）',
+                questions: [ // 1A,5B,6A
+                    {q: 0, a: 'A'}, // 第1题选A
+                    {q: 4, a: 'B'}, // 第5题选B
+                    {q: 5, a: 'A'}  // 第6题选A
+                ]
+            },
+            '冒险家': {
+                icon: '🌋',
+                subtitle: '「第一个吃螃蟹的拆墙专家」',
+                desc: '当别人还在写可行性报告，你已经跑出三套闭环商业模型。老板说"这项目有风险"，你眼睛发亮："正好试试我的危机预案2.0！"格子间关不住你探索的脚步——午休时间在楼梯间研究用户群体？只为下季度开拓新的市场。',
+                highlight: '用VR会议解决跨国协作时差',
+                growthKey: '给每个冒险设止损点（比如试错期≤2周）',
+                questions: [ // 2B,7B,11A
+                    {q: 1, a: 'B'}, // 第2题选B
+                    {q: 6, a: 'B'}, // 第7题选B
+                    {q: 10, a: 'A'} // 第11题选A
+                ]
+            },
+            '构建者': {
+                icon: '🧱',
+                subtitle: '「乐高式工作法代言人」',
+                desc: '你坚信所有混沌都能被系统驯服。当同事抱怨流程混乱，你默默画出带甘特图的SOP；当客户需求反复横跳，你搭建出模块化方案库："选A模板+B组件就能组合新方案"。',
+                highlight: '把散落百页需求压缩成1张架构图',
+                growthKey: '用"积木思维"解构大项目（复杂=简单单元×组合方式）',
+                questions: [ // 3A,9A,12A,14B
+                    {q: 2, a: 'A'}, // 第3题选A
+                    {q: 8, a: 'A'}, // 第9题选A
+                    {q: 11, a: 'A'}, // 第12题选A
+                    {q: 13, a: 'B'} // 第14题选B
+                ]
+            },
+            '执行者': {
+                icon: '🚀',
+                subtitle: '「人形进度条推进器」',
+                desc: '你是老板最爱的"灭火队长"——当项目卡在99%，你通宵调出关键数据；当客户明天要方案，你三小时产出80页精准报告。同事说"不可能完成"，你笑着打开计时器："离deadline还有287分钟，够优化两轮了。"',
+                highlight: '提前3天交付亿万级项目',
+                growthKey: '每天保留1小时"防干扰时段"（专注力是你的超能力）',
+                questions: [ // 1B,8A,10B,14A
+                    {q: 0, a: 'B'}, // 第1题选B
+                    {q: 7, a: 'A'}, // 第8题选A
+                    {q: 9, a: 'B'}, // 第10题选B
+                    {q: 13, a: 'A'} // 第14题选A
+                ]
+            },
+            '梦想家': {
+                icon: '☁️',
+                subtitle: '「茶水间预言家」',
+                desc: '你能从行业动态中嗅到未来趋势："ChatGPT只是开始，明年AI会颠覆招聘流程！"当别人盯着季度目标，你已构思五年后的工作模式。脑洞是你的超能力——上周的"元宇宙团建"提案让HR总监直拍大腿。',
+                highlight: '三年前预判远程办公常态',
+                growthKey: '给梦想加个脚手架（例：预测+最小可行性验证）',
+                questions: [ // 2A,7A,11B,13A
+                    {q: 1, a: 'A'}, // 第2题选A
+                    {q: 6, a: 'A'}, // 第7题选A
+                    {q: 10, a: 'B'}, // 第11题选B
+                    {q: 12, a: 'A'} // 第13题选A
+                ]
+            },
+            '创新者': {
+                icon: '💥',
+                subtitle: '「规则粉碎机」',
+                desc: '你总在挑战"从来如此"：报销流程太繁琐？开发扫码填表工具；周报形式主义？改成短视频汇报。老板说"行业都这样操作"，你反手甩出颠覆案例："试试我的方案，效率提升40%！"',
+                highlight: '用共享文档替代200封邮件',
+                growthKey: '给创新披件"马甲"（例：称改革为"试点计划"）',
+                questions: [ // 3B,9B,12B
+                    {q: 2, a: 'B'}, // 第3题选B
+                    {q: 8, a: 'B'}, // 第9题选B
+                    {q: 11, a: 'B'} // 第12题选B
+                ]
+            },
+            '远见者': {
+                icon: '🔭',
+                subtitle: '「部门行走的望远镜」',
+                desc: '你能从行业碎片中拼出未来地图："新能源政策将引发供应链重组""Z世代员工需要游戏化管理系统"。当同事纠结细节，你拉出十年趋势图："现在布局这个赛道，三年后吃红利！"',
+                highlight: '提前布局关键资源避开黑天鹅',
+                growthKey: '每月发布《趋势雷达图》（用可视化建立影响力）',
+                questions: [ // 4B,8B,13B,15A
+                    {q: 3, a: 'B'}, // 第4题选B
+                    {q: 7, a: 'B'}, // 第8题选B
+                    {q: 12, a: 'B'}, // 第13题选B
+                    {q: 14, a: 'A'} // 第15题选A
+                ]
+            }
+        };
+        
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            const userNameInput = document.getElementById('userName');
+            const answerButtons = document.getElementById('answerButtons');
+            const generateBtn = document.getElementById('generateBtn');
+            const resultSection = document.getElementById('resultSection');
+            const retryBtn = document.getElementById('retryBtn');
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            const dnaTypeDisplay = document.getElementById('dnaType');
+            
+            // 创建15个按钮，分成3行，每行5个
+            for (let row = 0; row < 3; row++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'button-row';
+                
+                for (let i = 0; i < 5; i++) {
+                    const index = row * 5 + i;
+                    const button = document.createElement('div');
+                    button.className = 'option-btn';
+                    button.dataset.index = index;
+                    button.dataset.selected = 'B'; // 默认选择B
+                    button.textContent = index + 1;
+                    
+                    button.addEventListener('click', function() {
+                        // 切换选择状态
+                        if (this.dataset.selected === 'B') {
+                            this.dataset.selected = 'A';
+                            this.classList.add('active');
+                        } else {
+                            this.dataset.selected = 'B';
+                            this.classList.remove('active');
+                        }
+                        
+                        // 检查是否所有题目都已选择
+                        checkCompletion();
+                    });
+                    
+                    rowDiv.appendChild(button);
+                }
+                
+                answerButtons.appendChild(rowDiv);
+            }
+            
+            // 检查用户名是否已输入
+            userNameInput.addEventListener('input', function() {
+                checkCompletion();
+            });
+            
+            // 检查是否所有题目都已选择
+            function checkCompletion() {
+                const buttons = document.querySelectorAll('.option-btn');
+                let allSelected = true;
+                
+                buttons.forEach(btn => {
+                    if (!btn.dataset.selected) {
+                        allSelected = false;
+                    }
+                });
+                
+                // 检查用户名是否已输入
+                const userName = userNameInput.value.trim();
+                generateBtn.disabled = !allSelected || userName === '';
+            }
+            
+            // 生成报告
+            generateBtn.addEventListener('click', function() {
+                const answers = [];
+                const buttons = document.querySelectorAll('.option-btn');
+                
+                buttons.forEach(button => {
+                    answers.push(button.dataset.selected);
+                });
+                
+                // 获取用户名
+                const userName = userNameInput.value.trim() || '朋友';
+                userNameDisplay.textContent = userName;
+                
+                // 计算每个类型的得分
+                const scores = {};
+                for (const type in creativeTypes) {
+                    scores[type] = 0;
+                    creativeTypes[type].questions.forEach(q => {
+                        if (answers[q.q] === q.a) {
+                            scores[type]++;
+                        }
+                    });
+                }
+                
+                // 找到最高分
+                let maxScore = 0;
+                let resultType = '艺术家';
+                
+                for (const type in scores) {
+                    if (scores[type] > maxScore) {
+                        maxScore = scores[type];
+                        resultType = type;
+                    }
+                }
+                
+                // 显示结果
+                showResult(resultType);
+            });
+            
+            // 显示结果
+            function showResult(type) {
+                const typeData = creativeTypes[type];
+                
+                document.getElementById('resultIcon').textContent = typeData.icon;
+                dnaTypeDisplay.textContent = type;
+                document.getElementById('resultSubtitle').textContent = typeData.subtitle;
+                document.getElementById('resultDesc').textContent = typeData.desc;
+                document.getElementById('highlight').textContent = typeData.highlight;
+                document.getElementById('growthKey').textContent = typeData.growthKey;
+                
+                document.querySelector('.input-section').style.display = 'none';
+                resultSection.style.display = 'block';
+                
+                // 滚动到结果部分
+                resultSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // 重新测试
+            retryBtn.addEventListener('click', function() {
+                const buttons = document.querySelectorAll('.option-btn');
+                buttons.forEach(btn => {
+                    btn.dataset.selected = 'B';
+                    btn.classList.remove('active');
+                });
+                
+                generateBtn.disabled = true;
+                document.querySelector('.input-section').style.display = 'block';
+                resultSection.style.display = 'none';
+                
+                // 滚动到顶部
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
